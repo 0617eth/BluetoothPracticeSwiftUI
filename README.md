@@ -15,3 +15,19 @@ Before you start tackling this problem are some things to note:
 
 This is all I can think of right now as I'm a bit tired. There may be more I need to mention but this should be enough. Send me a message if you have
 any questions! I'll update this README file if things come to mind that I think I need to share.
+
+
+EDIT: 02/13/23
+I've learned that going back a view or tapping a button is actually unreachable. Just simply touching the screen on the Central Manager will cause the app to crash on that device. I have also been in contact with an Apple Developer Technician, and one thing they mentioned to me was this:
+
+"Aside from some points in your code that could well be causing a crash (use of force unwraps is always risky), the main issue here is the use of CoreBluetooth within a SwiftUI app.
+
+The CoreBluetooth framework does not directly support SwiftUI, and works on a delegate callback structure like in a UIKit app. So, the proper way of implementing CoreBluetooh in a SwiftUI app is by the use of @UIApplicationDelegateAdaptor and implementing CoreBluetooth functionality in this delegate class.
+We have a sample of how CoreBluetooth is used in a SwiftUI project: https://developer.apple.com/documentation/watchkit/interacting_with_bluetooth_peripherals_during_background_app_refresh
+This is somewhat similar to the sample you are working with, with some differences. It sends data from the phone app to the watch app. The implementation of CoreBluetooth on watchOS is somewhat different than iOS (there are limitations), so you can ignore that for now unless you are also interested in creating a watch app.
+In this project, you will see several targets, and you would want to look at the BARBluetooth target, which is a simple SwiftUI app that advertises and sends some data to the receiving app.
+You can use that as a template to learn how to implement your own app in SwiftUI.
+Note how the ApplicationDelegate is defined in SamplePeripheralApp.swift
+And ApplicationDelegate.swift kicks off the UIKit application lifecycle which CoreBluetooth will run in."
+
+Now I have tried using @UIApplicationDelegateAdaptor and it did not work. Although I am not really familiar with it, so it's possible I used it wrong. Take a look at the project this technician sent me and try implementing @UIApplicationDelegateAdaptor to see if it works for you.
