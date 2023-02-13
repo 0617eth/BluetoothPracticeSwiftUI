@@ -18,6 +18,7 @@ any questions! I'll update this README file if things come to mind that I think 
 
 
 EDIT: 02/13/23
+
 I've learned that going back a view or tapping a button is actually unreachable. Just simply touching the screen on the Central Manager will cause the app to crash on that device. I have also been in contact with an Apple Developer Technician, and one thing they mentioned to me was this:
 
 "Aside from some points in your code that could well be causing a crash (use of force unwraps is always risky), the main issue here is the use of CoreBluetooth within a SwiftUI app.
@@ -31,3 +32,8 @@ Note how the ApplicationDelegate is defined in SamplePeripheralApp.swift
 And ApplicationDelegate.swift kicks off the UIKit application lifecycle which CoreBluetooth will run in."
 
 Now I have tried using @UIApplicationDelegateAdaptor and it did not work. Although I am not really familiar with it, so it's possible I used it wrong. Take a look at the project this technician sent me and try implementing @UIApplicationDelegateAdaptor to see if it works for you.
+
+Another thing I noticed, in the log for the central manager when the app crashes is the following message: "malloc: can't allocate region
+:*** mach_vm_map(size=580964351930810368, flags: 100) failed (error code=3)"
+
+Apparently this means I'm trying to access 580 million GB of memory? Not sure how that would happen, but I will continue to investigate.
